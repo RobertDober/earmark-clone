@@ -1,6 +1,5 @@
 module Lib
-    ( someFunc
+    ( InputLine(..)
     ) where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+data InputLine = InputLine String Int deriving (Show)
