@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Line
   other-modules:
       Paths_earmark_clone
   hs-source-dirs:
@@ -52,6 +53,8 @@ test-suite earmark-clone-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Line.LineSpec
+      Line.TokenizeSpec
       Paths_earmark_clone
   hs-source-dirs:
       test
