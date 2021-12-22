@@ -1,8 +1,13 @@
 module Line
-    ( LineType(..)
+    (
+      LineType(..)
     , LineInfo(..)
+    , RulerType(..)
     , scanLine
     ) where
+
+import Text.Parsec
+import Text.Parsec.String (Parser)
 
 type NumberedLine = (String, Int)
 type IndentCount = (String, Int)
@@ -13,13 +18,25 @@ data LineInfo = LineInfo { text :: String
                          , content :: String
                          } deriving (Show, Eq)
 
+data RulerType = ThinRuler | MediumRuler | ThickRuler deriving (Show, Eq)
+
 data LineType =
-    Text LineInfo deriving (Show, Eq)
+    ErrorToken
+    | Ruler LineInfo RulerType
+    | Text LineInfo
+    deriving (Show, Eq)
+
+
+textParser :: Parser LineType
+textParser = do
+    text <- many anyChar
+    return (Text LineInfo {text=text, lnb=0, indent=0, content=text})
 
 scanLine :: NumberedLine -> LineType
 scanLine (text, lnb) =
-    let (content, indent) = getContent text 0
-        in Text LineInfo {text=text, lnb=lnb, indent=indent, content=content}
+    case parse textParser "textParser" text of
+        Right (Text lineInfo) -> Text lineInfo{lnb=lnb, content=text}
+
 
 getContent :: String -> Int -> IndentCount
 getContent (' ' : rest) count = getContent rest (count + 1)
