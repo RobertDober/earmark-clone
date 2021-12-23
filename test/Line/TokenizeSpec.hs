@@ -12,7 +12,7 @@ spec = do
             let expected = Text (LineInfo {text="hello", lnb=42, indent=0, content="hello"})
                 in
                     scanLine ("hello", 42) `shouldBe` expected
-        it "creates a Text with indent" $ do
+        it "text with one leading space" $ do
             let expected = Text (LineInfo {text=" hello", lnb=43, indent=1, content="hello"})
                 in
                     scanLine (" hello", 43) `shouldBe` expected
@@ -29,6 +29,12 @@ spec = do
                     scanLine ("--", 44) `shouldBe` expected
 
         it "can be underscores" $ do
-            let expected = Ruler (LineInfo {text="__", lnb=45, indent=0, content="___"}) MediumRuler
+            let expected = Ruler (LineInfo {text="___", lnb=45, indent=0, content="___"}) MediumRuler
                 in
                     scanLine ("___", 45) `shouldBe` expected
+
+        it "Thick Indented Ruler" $ do
+            let expected = Ruler (LineInfo {text="   ***", lnb=46, indent=3, content="***"}) ThickRuler
+                in
+                    scanLine ("   ***", 46) `shouldBe` expected
+

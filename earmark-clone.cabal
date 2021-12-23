@@ -55,6 +55,7 @@ test-suite earmark-clone-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Line.SpaceSpec
       Line.TokenizeSpec
       Paths_earmark_clone
   hs-source-dirs:
